@@ -3,6 +3,7 @@ import React from 'react'
 import {horizontalScale, verticalScale, scaleFontSize} from "../../utils/scaling"
 import avatar from '../../../assets/img/avatar.png'
 import CollapsibleText from "./CollapsibleText"
+import PostImages from "./PostImages"
 import PropTypes from 'prop-types';
 import DeviceInfo from 'react-native-device-info';
 const {width, height} = Dimensions.get('window');
@@ -11,7 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 const isSmall = width <= 375 && !DeviceInfo.hasNotch();
 const News = props => {
     const longText = 'Nội dung dài cần được thu gọn hoặc mở rộng khi cần thiết. Nội dung dài cần được thu gọn hoặc mở rộng khi cần thiết.Nội dung dài cần được thu gọn hoặc mở rộng khi cần thiết.Nội dung dài cần được thu gọn hoặc mở rộng khi cần thiết.';
-
+    const postImages = [
+        avatar,
+        avatar,
+        avatar,
+      ];
   return (
     <View>
       <View style={styles.liner}></View>
@@ -33,6 +38,7 @@ const News = props => {
         {props.image && (<Image source={avatar} style={styles.imageCap}>
 
         </Image>)}
+        {/* <PostImages images={postImages} /> */}
       </View>
     </View>
   )

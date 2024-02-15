@@ -28,7 +28,7 @@ const RootNavigation = () => {
     checkToken1();
   }, []); // Thêm dependency array trống để useEffect chỉ chạy một lần sau khi component được mount
 
-  return (user.accessToken == null ? <NonAuthenticated /> /**: user.department == null ? <SetupLogin /> */ : <Authenticated />);
+  return (user.accessToken == null ? <NonAuthenticated /> : user.department == null ? <SetupLogin /> : <Authenticated />);
 };
 
 export default RootNavigation;

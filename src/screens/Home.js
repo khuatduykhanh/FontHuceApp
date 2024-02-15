@@ -15,7 +15,9 @@ const Home = () => {
         <ScrollView>
           <Post />
           <Story /> 
-          <News image="true" />
+          <News image={true} />
+          <News image={true} />
+          <News image={false} />
         </ScrollView>
     </SafeAreaView>
   )
