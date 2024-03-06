@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Image, Button, Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from "axios";
+import {useNavigation,useRoute} from "@react-navigation/native"
+import Toast from 'react-native-simple-toast';
 import {horizontalScale, verticalScale, scaleFontSize} from "../utils/scaling"
 import { useDispatch, useSelector } from 'react-redux';
-import RNFetchBlob from 'rn-fetch-blob';
-const SERVER_URL = 'http://192.168.1.6:8080';
-
+import {uploadAvatar} from "../service/account"
 const createFormData = (photo) => {
   const data = new FormData();
-
   data.append('file', {
     name: photo.fileName,
     type: photo.type,
@@ -17,6 +17,7 @@ const createFormData = (photo) => {
   });
 
   data.append('type',"avatar")
+  console.log("test form data",data)
 
   return data;
 };
@@ -24,6 +25,7 @@ const createFormData = (photo) => {
 const Avatar = () => {
   const [photo, setPhoto] = React.useState(null);
   const user = useSelector(state => state.user);
+  const navigation = useNavigation()
   const handleChoosePhoto = () => {
     launchImageLibrary({ noData: false }, (response) => {
       if (response.didCancel) {
@@ -36,25 +38,17 @@ const Avatar = () => {
     });
   };
   
-  const handleUploadPhoto = () => {
+  const handleUploadPhoto = async () => {
     console.log("form"+ createFormData(photo))
     console.log("photo",photo)
     if (photo) {
-        RNFetchBlob.fetch(`${SERVER_URL}/api/account/uploadImage`, {
-        method: 'POST',
-        body: createFormData(photo),
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${user.accessToken}`,
-          },
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log('response', response);
-        })
-        .catch((error) => {
-          console.log('error', error);
-        });
+      const data = await uploadAvatar(createFormData(photo),user.accessToken);
+      console.log("data",data)
+      if(data.status == 200 && data.data.status == 1){
+        Toast.show('Thiết lập thành công');
+      }else{
+        Toast.show('uploadfile thất bại');
+      }
     } else {
       console.log('No photo selected');
     }

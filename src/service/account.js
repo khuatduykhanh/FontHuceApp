@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 // Khai báo hàm account mà không sử dụng useSelector ở đây
 const account = axios.create({
     baseURL: "http:localhost:8080/api/account",
@@ -17,4 +17,14 @@ export const checkToken = async (accessToken) => {
         return res;
 };
 
-export default { checkToken };
+export const uploadAvatar = async (data,token) =>{
+    const res = await account.post("/uploadImage", data,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
+      },
+
+    })
+    return res;
+};
+export default { checkToken, uploadAvatar};

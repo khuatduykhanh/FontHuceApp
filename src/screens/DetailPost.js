@@ -1,24 +1,23 @@
-import { View, Text,StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
+import { View, Text,StyleSheet,Dimensions, SafeAreaView, TouchableOpacity,Image, ScrollView } from 'react-native'
 import React from 'react'
-import {horizontalScale, verticalScale, scaleFontSize} from "../../utils/scaling"
-import avatar from '../../../assets/img/avatar.png'
-import CollapsibleText from "./CollapsibleText"
-import PostImages from "./PostImages"
-import {useNavigation} from "@react-navigation/native"
-import PropTypes from 'prop-types';
+import {useNavigation,useRoute} from "@react-navigation/native"
 import DeviceInfo from 'react-native-device-info';
 const {width, height} = Dimensions.get('window');
-import { faEarthAsia, faThumbsUp, faShare } from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faEarthAsia,faThumbsUp, faShare} from "@fortawesome/free-solid-svg-icons"
 import { faThumbsUp as regularThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {horizontalScale, verticalScale, scaleFontSize} from "../utils/scaling"
 const isSmall = width <= 375 && !DeviceInfo.hasNotch();
-const News = props => {
-    const navigation = useNavigation();
+const DetailPost = () => {
+    const navigation = useNavigation()
+    const route = useRoute()
+    const {avatar,props} = route.params;
   return (
-    <View>
-      <View style={styles.liner}></View>
-      <View >
+    <SafeAreaView>
         <View style={styles.containerHeader}>
+            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                <FontAwesomeIcon icon={faAngleLeft} size={25} />
+            </TouchableOpacity>
             <Image source={avatar} style={styles.avatar} ></Image>
             <View style={styles.containerName}>
                 <Text style={styles.name}>Khuất Duy Khánh</Text>
@@ -28,30 +27,12 @@ const News = props => {
                 </View>
             </View>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("DetailPost",{ avatar,props })} >
-        <View style={styles.containerCap}>
-             {/* <Text numberOfLines={3} style={styles.cap}>Info Launching org reactjs native example HuceApp mons nhon moix ngay voi hajt name cowf no Đây là một thuộc tính CSS không tiêu chuẩn, thường được sử dụng để giới hạn số dòng hiển thị của một phần tử. Trong trường hợp này, nó được sử dụng để giới hạn văn bản chỉ hiển thị tối đa 3 dòng.</Text> */}
-            <CollapsibleText text={props.cap} maxLength={150} />
-        </View>
-        </TouchableOpacity>
-        {props.image && (<Image source={avatar} style={styles.imageCap}></Image>)}
-        {/* <PostImages images={postImages} /> */}
-        
-        <View style={styles.containerFooter}>
-            <TouchableOpacity onPress={() => navigation.navigate("DetailPost",{ avatar,props })} >
-            <View style={styles.containerFooterTop}>
-                <View style={styles.containerFooterTopLeft}>
-                    <View style={styles.containerLike}>
-                    <FontAwesomeIcon icon={faThumbsUp} style={{ color: 'white' }} size={12} />
-                    </View>
-                    <Text>123</Text>
-                </View>
-                <View style={styles.containerFooterTopRight}>
-                    <Text style={{ marginRight: 15 }}>6 bình luận</Text>
-                    <Text>2 lượt chia sẻ</Text>
-                </View>
+        <ScrollView>
+            <View style={styles.containerCap}>
+                <Text style={styles.cap}>{props.cap}</Text>
             </View>
-            </TouchableOpacity>
+            <Image source={avatar} style={styles.image} ></Image>
+            <View style={styles.containerFooter}>
             <View style={styles.containerFooterBottom}>
                 <View style={styles.containerFooterBottomLeft}>
                     <TouchableOpacity style={styles.containerButtonLike}>
@@ -72,34 +53,36 @@ const News = props => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <View style={styles.containerFooterTop}>
+                <View style={styles.containerFooterTopLeft}>
+                    <View style={styles.containerLike}>
+                    <FontAwesomeIcon icon={faThumbsUp} style={{ color: 'white' }} size={12} />
+                    </View>
+                    <Text>123</Text>
+                </View>
+                {/* <View style={styles.containerFooterTopRight}> */}
+                    <Text style={{ marginRight: 15 }}>6 bình luận</Text>
+                    <Text>2 lượt chia sẻ</Text>
+                {/* </View> */}
+            </View>
         </View>
-      </View>
-    </View>
+        </ScrollView>
+    </SafeAreaView>
   )
 }
-News.propTypes = {
-    // The first name of the user as a required string
-    image: PropTypes.bool.isRequired,
-    cap: PropTypes.string.isRequired,
-
-  };
 const styles = StyleSheet.create({
-    liner:{
-        width: '100%',
-        height: 5,
-        backgroundColor: '#DDDDDD'
-    },
     containerHeader:{
-       width: '100%',
-       height: isSmall ? 60 : 70,
-       flexDirection: "row",
-       alignItems: 'center',
-       justifyContent: 'flex-start'
+        width: '100%',
+        height: 68,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 10,
+        // backgroundColor: 'red'
     },
     avatar:{
-        width: isSmall ? 46 : 54,
-        height: isSmall ? 46 : 54,
-        borderRadius: isSmall ? 23 : 27,
+        width: isSmall ? 40 : 46,
+        height: isSmall ? 40 : 46,
+        borderRadius: isSmall ? 20 : 23,
         marginLeft: horizontalScale(15)
     },
     containerName:{
@@ -111,6 +94,9 @@ const styles = StyleSheet.create({
         fontSize: scaleFontSize(16),
         marginBottom: 3
     },
+    containerTime:{
+        flexDirection: 'row'
+    },
     time:{
         fontFamily: 'Inter',
         fontWeight: '400',
@@ -119,32 +105,30 @@ const styles = StyleSheet.create({
         marginRight: 6,
         color: '#474748'
     },
-    containerTime:{
-        flexDirection: 'row'
-    },
     containerCap:{
-        width: '100%',
-        height: "auto",
+       
+        width: 'auto',
+        height: 'auto',
     },
-    cap:{
+    cap: {
         marginLeft: horizontalScale(15),
-        marginRight:  horizontalScale(30),
+        marginRight:  horizontalScale(10),
         marginBottom:  10,
-        marginTop: 3,
+        marginTop: 5,
         fontFamily: 'Inter',
         fontSize: scaleFontSize(15),
         fontWeight: '400',
         overflow:"hidden",
+        lineHeight: 20
     },
-    imageCap:{
+    image:{
         width: '100%',
+        height: 400
     },
     containerFooter:{
         margin: 5,
     },
     containerFooterTop:{
-        borderBottomWidth: 0.2,
-        borderBottomColor: 'grey',
         justifyContent: 'space-between',
         paddingBottom: 8,
         paddingTop: 8,
@@ -168,9 +152,11 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     containerFooterBottom:{
+        borderBottomWidth: 0.2,
+        borderBottomColor: 'grey',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingBottom: 3,
+        paddingBottom: 12,
         paddingTop: 8,
         paddingLeft: 15,
         paddingRight: 15,
@@ -189,4 +175,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 })
-export default News
+export default DetailPost

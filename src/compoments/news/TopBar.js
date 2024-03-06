@@ -5,9 +5,11 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import messager from "../../../assets/img/messager.png"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import DeviceInfo from 'react-native-device-info';
+import {useNavigation} from "@react-navigation/native"
 const {width, height} = Dimensions.get('window');
 const isSmall = width <= 375 && !DeviceInfo.hasNotch();
 const TopBar = () => {
+    const navigation = useNavigation();
   return (
     <View style={styles.containerHeader}>
         <Text style={styles.name}>Huce News</Text>
@@ -15,7 +17,7 @@ const TopBar = () => {
             <TouchableOpacity style={styles.buttonRight}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} size={isSmall ? 20 : 22} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonRight}>
+            <TouchableOpacity style={styles.buttonRight} onPress={() => navigation.navigate("Chat")}>
                 <Image source={messager} style={styles.imageMessager}></Image>
             </TouchableOpacity>
         </View>

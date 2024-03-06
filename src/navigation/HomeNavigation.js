@@ -31,7 +31,7 @@ const HomeNavigation = () => {
       initialRouteName="Feed"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
-        headerShown: false
+        headerShown: false,
       }}
     >
       <Tab.Screen

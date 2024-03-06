@@ -12,7 +12,6 @@ const RootNavigation = () => {
           const check = await checkToken(user.accessToken);
           if (check.status !== 200) {
               const refresh = await refreshToken({ token: user.refreshToken });
-              console.log("refresh",refresh.data.data.accessToken)
               if (refresh.status === 200 && refresh.data.status === 1) {
                   dispatch(updateUser(refresh.data.data));
               } else {
@@ -28,7 +27,7 @@ const RootNavigation = () => {
     checkToken1();
   }, []); // Thêm dependency array trống để useEffect chỉ chạy một lần sau khi component được mount
 
-  return (user.accessToken == null ? <NonAuthenticated /> : user.department == null ? <SetupLogin /> : <Authenticated />);
+  return (user.accessToken == undefined ? <NonAuthenticated /> /** : user.department == null ? <SetupLogin /> */ : <Authenticated />);
 };
 
 export default RootNavigation;

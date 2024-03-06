@@ -11,14 +11,14 @@ const UserStory = props => {
         <View  style={styles.storyContainer}>
             {props.watched == true ? <View style={styles.userImageContainerWatched}>
                 {/* Render an image component with a default profile image */}
-                <Image source={avatar} style={styles.imageUser}/>
+                <Image source={{ uri: props.image }} style={styles.imageUser}/>
                 {props.check == true ? <View style={styles.containerPlus}>
                     <Text style={styles.plus}>+</Text>
                 </View>: <></>
                 }
             </View> : <View style={styles.userImageContainer}>
                 {/* Render an image component with a default profile image */}
-                <Image source={avatar} style={styles.imageUser}/>
+                <Image source={{ uri: props.image }} style={styles.imageUser}/>
                 {props.check == true ? <View style={styles.containerPlus}>
                     <Text style={styles.plus}>+</Text>
                 </View>: <></>
@@ -35,7 +35,8 @@ UserStory.propTypes = {
   // The first name of the user as a required string
   firstName: PropTypes.string.isRequired,
   check: PropTypes.bool.isRequired,
-  watched: PropTypes.bool.isRequired
+  watched: PropTypes.bool.isRequired,
+  image: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

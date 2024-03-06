@@ -9,6 +9,8 @@ import ForgotPassword from "../screens/ForgotPassword"
 import NewPassword from "../screens/NewPassword"
 import ConfirmForgotPassword from "../screens/ConfirmForgotPassword"
 import Avatar from "../screens/Avatar"
+import Chat from "../screens/Chat"
+import DetailPost from '../screens/DetailPost';
 import Setup from '../screens/Setup';
 const Stack = createNativeStackNavigator(); 
 
@@ -30,6 +32,8 @@ export const Authenticated = () => {
     return (
         <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeNavigation} />
+            <Stack.Screen name="DetailPost" component={DetailPost} />
+            <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
     )
 }
